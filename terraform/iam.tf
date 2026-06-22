@@ -124,6 +124,12 @@ resource "aws_iam_role_policy" "submit_answer" {
     Version = "2012-10-17"
     Statement = [
       {
+        Sid    = "DynamoDBSubmissionsWrite"
+        Effect = "Allow"
+        Action = ["dynamodb:PutItem"]
+        Resource = aws_dynamodb_table.submissions.arn
+      },
+      {
         Sid    = "SQSSendMessage"
         Effect = "Allow"
         Action = ["sqs:SendMessage"]
