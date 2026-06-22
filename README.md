@@ -1,4 +1,4 @@
-# Antigravity Interviewer
+# Arch2Lead Interviewer
 
 A daily system-design interview challenge platform. A new architecture question every day — submit written answers and get AI-powered evaluations via Amazon Bedrock (Claude).
 
