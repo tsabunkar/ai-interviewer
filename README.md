@@ -4,13 +4,13 @@ A daily system-design interview challenge platform. A new architecture question 
 
 ## Diagrams- Functional, Architecture
 
-### High Level Architecture Diagram
-
-![High Level Architecture Diagram](hld.png)
-
 ### Functional Requirement Diagram
 
 ![Functional Requirement Diagram](fun-req-diagram.png)
+
+### High Level Architecture Diagram
+
+![High Level Architecture Diagram](hld.png)
 
 ## Project Structure
 
@@ -77,3 +77,7 @@ aws s3 sync dist/ s3://ai-interviewer-frontend-cef0ac55
 - **Backend:** Go, AWS Lambda, DynamoDB, SQS, Bedrock (Claude)
 - **Frontend:** React 18, Vite, Chart.js, react-markdown
 - **Infrastructure:** Terraform, API Gateway, CloudFront, EventBridge
+
+### Links
+
+- Frontend: [Frontend](https://d2b75ixlw272nl.cloudfront.net/)
