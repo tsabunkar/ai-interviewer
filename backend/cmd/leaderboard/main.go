@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/ai-interviewer/backend/internal/db"
 	"github.com/ai-interviewer/backend/internal/models"
@@ -33,13 +34,10 @@ func handleRequest(ctx context.Context, req events.APIGatewayProxyRequest) (even
 		}, nil
 	}
 
-	date := req.PathParameters["date"]
+	date := req.QueryStringParameters["date"]
 	if date == "" {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusBadRequest,
-			Headers:    headers,
-			Body:       `{"error":"date path parameter is required"}`,
-		}, nil
+		loc := time.FixedZone("IST", 19800)
+		date = time.Now().In(loc).Format("2006-01-02")
 	}
 
 	dynamoClient, err := db.NewDynamoClient(ctx)

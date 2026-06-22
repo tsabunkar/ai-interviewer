@@ -23,42 +23,35 @@ resource "aws_api_gateway_resource" "question" {
   path_part   = "question"
 }
 
-# /question/today resource
-resource "aws_api_gateway_resource" "question_today" {
-  rest_api_id = aws_api_gateway_rest_api.main.id
-  parent_id   = aws_api_gateway_resource.question.id
-  path_part   = "today"
-}
-
-# GET /question/today
-resource "aws_api_gateway_method" "get_question_today" {
+# GET /question
+resource "aws_api_gateway_method" "get_question" {
   rest_api_id   = aws_api_gateway_rest_api.main.id
-  resource_id   = aws_api_gateway_resource.question_today.id
+  resource_id   = aws_api_gateway_resource.question.id
   http_method   = "GET"
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_integration" "get_question_today" {
+resource "aws_api_gateway_integration" "get_question" {
   rest_api_id             = aws_api_gateway_rest_api.main.id
-  resource_id             = aws_api_gateway_resource.question_today.id
-  http_method             = aws_api_gateway_method.get_question_today.http_method
+  resource_id             = aws_api_gateway_resource.question.id
+  http_method             = aws_api_gateway_method.get_question.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.fetch_question.invoke_arn
 }
 
-# OPTIONS /question/today (CORS preflight)
-resource "aws_api_gateway_method" "options_question_today" {
+# OPTIONS /question (CORS preflight)
+resource "aws_api_gateway_method" "options_question" {
   rest_api_id   = aws_api_gateway_rest_api.main.id
-  resource_id   = aws_api_gateway_resource.question_today.id
+  resource_id   = aws_api_gateway_resource.question.id
   http_method   = "OPTIONS"
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_integration" "options_question_today" {
+resource "aws_api_gateway_integration" "options_question" {
   rest_api_id = aws_api_gateway_rest_api.main.id
-  resource_id = aws_api_gateway_resource.question_today.id
-  http_method = aws_api_gateway_method.options_question_today.http_method
+  resource_id = aws_api_gateway_resource.question.id
+  http_method = aws_api_gateway_method.options_question.http_method
   type        = "MOCK"
 
   request_templates = {
@@ -66,10 +59,10 @@ resource "aws_api_gateway_integration" "options_question_today" {
   }
 }
 
-resource "aws_api_gateway_method_response" "options_question_today" {
+resource "aws_api_gateway_method_response" "options_question" {
   rest_api_id = aws_api_gateway_rest_api.main.id
-  resource_id = aws_api_gateway_resource.question_today.id
-  http_method = aws_api_gateway_method.options_question_today.http_method
+  resource_id = aws_api_gateway_resource.question.id
+  http_method = aws_api_gateway_method.options_question.http_method
   status_code = "200"
 
   response_parameters = {
@@ -83,11 +76,11 @@ resource "aws_api_gateway_method_response" "options_question_today" {
   }
 }
 
-resource "aws_api_gateway_integration_response" "options_question_today" {
+resource "aws_api_gateway_integration_response" "options_question" {
   rest_api_id = aws_api_gateway_rest_api.main.id
-  resource_id = aws_api_gateway_resource.question_today.id
-  http_method = aws_api_gateway_method.options_question_today.http_method
-  status_code = aws_api_gateway_method_response.options_question_today.status_code
+  resource_id = aws_api_gateway_resource.question.id
+  http_method = aws_api_gateway_method.options_question.http_method
+  status_code = aws_api_gateway_method_response.options_question.status_code
 
   response_parameters = {
     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,Authorization,X-Amz-Date,X-Api-Key'"
@@ -97,43 +90,43 @@ resource "aws_api_gateway_integration_response" "options_question_today" {
 }
 
 # =============================================================================
-# /submit resource
+# /answer resource
 # =============================================================================
-resource "aws_api_gateway_resource" "submit" {
+resource "aws_api_gateway_resource" "answer" {
   rest_api_id = aws_api_gateway_rest_api.main.id
   parent_id   = aws_api_gateway_rest_api.main.root_resource_id
-  path_part   = "submit"
+  path_part   = "answer"
 }
 
-# POST /submit
-resource "aws_api_gateway_method" "post_submit" {
+# POST /answer
+resource "aws_api_gateway_method" "post_answer" {
   rest_api_id   = aws_api_gateway_rest_api.main.id
-  resource_id   = aws_api_gateway_resource.submit.id
+  resource_id   = aws_api_gateway_resource.answer.id
   http_method   = "POST"
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_integration" "post_submit" {
+resource "aws_api_gateway_integration" "post_answer" {
   rest_api_id             = aws_api_gateway_rest_api.main.id
-  resource_id             = aws_api_gateway_resource.submit.id
-  http_method             = aws_api_gateway_method.post_submit.http_method
+  resource_id             = aws_api_gateway_resource.answer.id
+  http_method             = aws_api_gateway_method.post_answer.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.submit_answer.invoke_arn
 }
 
-# OPTIONS /submit (CORS preflight)
-resource "aws_api_gateway_method" "options_submit" {
+# OPTIONS /answer (CORS preflight)
+resource "aws_api_gateway_method" "options_answer" {
   rest_api_id   = aws_api_gateway_rest_api.main.id
-  resource_id   = aws_api_gateway_resource.submit.id
+  resource_id   = aws_api_gateway_resource.answer.id
   http_method   = "OPTIONS"
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_integration" "options_submit" {
+resource "aws_api_gateway_integration" "options_answer" {
   rest_api_id = aws_api_gateway_rest_api.main.id
-  resource_id = aws_api_gateway_resource.submit.id
-  http_method = aws_api_gateway_method.options_submit.http_method
+  resource_id = aws_api_gateway_resource.answer.id
+  http_method = aws_api_gateway_method.options_answer.http_method
   type        = "MOCK"
 
   request_templates = {
@@ -141,10 +134,10 @@ resource "aws_api_gateway_integration" "options_submit" {
   }
 }
 
-resource "aws_api_gateway_method_response" "options_submit" {
+resource "aws_api_gateway_method_response" "options_answer" {
   rest_api_id = aws_api_gateway_rest_api.main.id
-  resource_id = aws_api_gateway_resource.submit.id
-  http_method = aws_api_gateway_method.options_submit.http_method
+  resource_id = aws_api_gateway_resource.answer.id
+  http_method = aws_api_gateway_method.options_answer.http_method
   status_code = "200"
 
   response_parameters = {
@@ -158,11 +151,11 @@ resource "aws_api_gateway_method_response" "options_submit" {
   }
 }
 
-resource "aws_api_gateway_integration_response" "options_submit" {
+resource "aws_api_gateway_integration_response" "options_answer" {
   rest_api_id = aws_api_gateway_rest_api.main.id
-  resource_id = aws_api_gateway_resource.submit.id
-  http_method = aws_api_gateway_method.options_submit.http_method
-  status_code = aws_api_gateway_method_response.options_submit.status_code
+  resource_id = aws_api_gateway_resource.answer.id
+  http_method = aws_api_gateway_method.options_answer.http_method
+  status_code = aws_api_gateway_method_response.options_answer.status_code
 
   response_parameters = {
     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,Authorization,X-Amz-Date,X-Api-Key'"
@@ -257,7 +250,7 @@ resource "aws_api_gateway_integration_response" "options_results" {
 }
 
 # =============================================================================
-# /leaderboard/{date} resource
+# /leaderboard resource
 # =============================================================================
 resource "aws_api_gateway_resource" "leaderboard" {
   rest_api_id = aws_api_gateway_rest_api.main.id
@@ -265,44 +258,34 @@ resource "aws_api_gateway_resource" "leaderboard" {
   path_part   = "leaderboard"
 }
 
-resource "aws_api_gateway_resource" "leaderboard_date" {
-  rest_api_id = aws_api_gateway_rest_api.main.id
-  parent_id   = aws_api_gateway_resource.leaderboard.id
-  path_part   = "{date}"
-}
-
-# GET /leaderboard/{date}
+# GET /leaderboard
 resource "aws_api_gateway_method" "get_leaderboard" {
   rest_api_id   = aws_api_gateway_rest_api.main.id
-  resource_id   = aws_api_gateway_resource.leaderboard_date.id
+  resource_id   = aws_api_gateway_resource.leaderboard.id
   http_method   = "GET"
   authorization = "NONE"
-
-  request_parameters = {
-    "method.request.path.date" = true
-  }
 }
 
 resource "aws_api_gateway_integration" "get_leaderboard" {
   rest_api_id             = aws_api_gateway_rest_api.main.id
-  resource_id             = aws_api_gateway_resource.leaderboard_date.id
+  resource_id             = aws_api_gateway_resource.leaderboard.id
   http_method             = aws_api_gateway_method.get_leaderboard.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.leaderboard.invoke_arn
 }
 
-# OPTIONS /leaderboard/{date} (CORS preflight)
+# OPTIONS /leaderboard (CORS preflight)
 resource "aws_api_gateway_method" "options_leaderboard" {
   rest_api_id   = aws_api_gateway_rest_api.main.id
-  resource_id   = aws_api_gateway_resource.leaderboard_date.id
+  resource_id   = aws_api_gateway_resource.leaderboard.id
   http_method   = "OPTIONS"
   authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "options_leaderboard" {
   rest_api_id = aws_api_gateway_rest_api.main.id
-  resource_id = aws_api_gateway_resource.leaderboard_date.id
+  resource_id = aws_api_gateway_resource.leaderboard.id
   http_method = aws_api_gateway_method.options_leaderboard.http_method
   type        = "MOCK"
 
@@ -313,7 +296,7 @@ resource "aws_api_gateway_integration" "options_leaderboard" {
 
 resource "aws_api_gateway_method_response" "options_leaderboard" {
   rest_api_id = aws_api_gateway_rest_api.main.id
-  resource_id = aws_api_gateway_resource.leaderboard_date.id
+  resource_id = aws_api_gateway_resource.leaderboard.id
   http_method = aws_api_gateway_method.options_leaderboard.http_method
   status_code = "200"
 
@@ -330,7 +313,7 @@ resource "aws_api_gateway_method_response" "options_leaderboard" {
 
 resource "aws_api_gateway_integration_response" "options_leaderboard" {
   rest_api_id = aws_api_gateway_rest_api.main.id
-  resource_id = aws_api_gateway_resource.leaderboard_date.id
+  resource_id = aws_api_gateway_resource.leaderboard.id
   http_method = aws_api_gateway_method.options_leaderboard.http_method
   status_code = aws_api_gateway_method_response.options_leaderboard.status_code
 
@@ -435,13 +418,13 @@ resource "aws_api_gateway_deployment" "main" {
   # Force redeployment when any integration changes
   triggers = {
     redeployment = sha1(jsonencode([
-      aws_api_gateway_integration.get_question_today.id,
-      aws_api_gateway_integration.post_submit.id,
+      aws_api_gateway_integration.get_question.id,
+      aws_api_gateway_integration.post_answer.id,
       aws_api_gateway_integration.get_results.id,
       aws_api_gateway_integration.get_leaderboard.id,
       aws_api_gateway_integration.get_user_stats.id,
-      aws_api_gateway_integration.options_question_today.id,
-      aws_api_gateway_integration.options_submit.id,
+      aws_api_gateway_integration.options_question.id,
+      aws_api_gateway_integration.options_answer.id,
       aws_api_gateway_integration.options_results.id,
       aws_api_gateway_integration.options_leaderboard.id,
       aws_api_gateway_integration.options_user_stats.id,
@@ -449,13 +432,13 @@ resource "aws_api_gateway_deployment" "main" {
   }
 
   depends_on = [
-    aws_api_gateway_integration.get_question_today,
-    aws_api_gateway_integration.post_submit,
+    aws_api_gateway_integration.get_question,
+    aws_api_gateway_integration.post_answer,
     aws_api_gateway_integration.get_results,
     aws_api_gateway_integration.get_leaderboard,
     aws_api_gateway_integration.get_user_stats,
-    aws_api_gateway_integration.options_question_today,
-    aws_api_gateway_integration.options_submit,
+    aws_api_gateway_integration.options_question,
+    aws_api_gateway_integration.options_answer,
     aws_api_gateway_integration.options_results,
     aws_api_gateway_integration.options_leaderboard,
     aws_api_gateway_integration.options_user_stats,

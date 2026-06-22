@@ -95,22 +95,8 @@ resource "aws_cloudfront_distribution" "frontend" {
     cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
   }
 
-  # Custom domain alias (only if frontend_domain is provided)
-  dynamic "viewer_certificate" {
-    for_each = var.frontend_domain != "" ? [1] : []
-    content {
-      acm_certificate_arn      = null
-      ssl_support_method       = "sni-only"
-      minimum_protocol_version = "TLSv1.2_2021"
-    }
-  }
-
-  # Default CloudFront certificate (when no custom domain)
-  dynamic "viewer_certificate" {
-    for_each = var.frontend_domain == "" ? [1] : []
-    content {
-      cloudfront_default_certificate = true
-    }
+  viewer_certificate {
+    cloudfront_default_certificate = true
   }
 
   restrictions {

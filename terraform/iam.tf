@@ -180,7 +180,7 @@ resource "aws_iam_role_policy" "evaluation_worker" {
         Resource = aws_dynamodb_table.submissions.arn
       },
       {
-        Sid    = "DynamoDBLeaderboardWrite"
+        Sid    = "DynamoDBLeaderboardReadWrite"
         Effect = "Allow"
         Action = [
           "dynamodb:GetItem",
