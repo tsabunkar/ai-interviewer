@@ -1,0 +1,115 @@
+.streak-calendar-wrapper {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  width: 100%;
+}
+
+.streak-title {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 20px;
+}
+
+.streak-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13px, 1fr));
+  gap: 4px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.streak-cell {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.streak-cell:hover {
+  transform: scale(1.3);
+  z-index: 10;
+}
+
+/* Cell Intensity Levels */
+.cell-empty {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.cell-low {
+  background: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 0 4px rgba(16, 185, 129, 0.1);
+}
+
+.cell-medium {
+  background: rgba(16, 185, 129, 0.6);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+}
+
+.cell-high {
+  background: #10b981;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+}
+
+/* Tooltip */
+.streak-tooltip {
+  visibility: hidden;
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(10, 14, 26, 0.95);
+  color: #fff;
+  text-align: center;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.streak-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(10, 14, 26, 0.95) transparent transparent transparent;
+}
+
+.streak-cell:hover .streak-tooltip {
+  visibility: visible;
+}
+
+/* Legend */
+.streak-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.streak-legend span {
+  margin: 0 4px;
+}
+
+.streak-legend .streak-cell {
+  width: 12px;
+  height: 12px;
+  cursor: default;
+}
+
+.streak-legend .streak-cell:hover {
+  transform: none;
+}

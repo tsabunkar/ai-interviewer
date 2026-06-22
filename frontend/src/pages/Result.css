@@ -1,0 +1,347 @@
+.result-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+}
+
+.evaluation-loader-card {
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 48px 32px;
+}
+
+.radar-scanner {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  background: rgba(139, 92, 246, 0.03);
+  border-radius: 50%;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  overflow: hidden;
+}
+
+.scanner-grid {
+  width: 100%;
+  height: 100%;
+}
+
+.scanner-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(from 0deg, transparent 50%, rgba(59, 130, 246, 0.3) 100%);
+  border-radius: 50%;
+  animation: scan 3s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes scan {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loading-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  width: 40%;
+  background: var(--accent-gradient);
+  border-radius: 2px;
+  animation: loadFill 2s infinite ease-in-out;
+}
+
+@keyframes loadFill {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+
+/* Result Screen Layout */
+.result-header {
+  margin-bottom: 32px;
+}
+
+.result-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.result-left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Score Reveal */
+.score-reveal-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.score-circle-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.score-text-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-num {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+  font-family: var(--font-mono);
+}
+
+.score-max {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.score-tier-details {
+  margin-top: 16px;
+}
+
+.rating-badge {
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rating-gold {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.2);
+}
+
+.rating-purple {
+  color: #a78bfa;
+  background: rgba(167, 139, 250, 0.1);
+  border-color: rgba(167, 139, 250, 0.2);
+}
+
+.rating-blue {
+  color: #60a5fa;
+  background: rgba(96, 165, 250, 0.1);
+  border-color: rgba(96, 165, 250, 0.2);
+}
+
+.rating-gray {
+  color: #94a3b8;
+  background: rgba(148, 163, 184, 0.1);
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+/* Radar Card */
+.radar-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 24px;
+}
+
+.radar-container {
+  width: 100%;
+  height: 280px;
+}
+
+/* Right Column Details */
+.result-right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section-title-res {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.summary-card {
+  border-left: 4px solid var(--accent-blue);
+  background: rgba(59, 130, 246, 0.02);
+}
+
+.summary-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+/* Strengths & Weaknesses */
+.strengths-weaknesses-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.strengths-card ul, .weaknesses-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.strengths-card li, .weaknesses-card li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.bullet {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.success-text { color: var(--success); }
+.success-bg {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.warning-text { color: var(--warning); }
+.warning-bg {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.strengths-card p, .weaknesses-card p {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* Category Details */
+.category-details-card {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.category-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.category-detail-item {
+  border-bottom: 1px solid var(--border-glass);
+  padding-bottom: 16px;
+}
+
+.category-detail-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.category-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.cat-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.cat-score {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.progress-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.cat-feedback {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Actions CTAs */
+.result-ctas {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.result-ctas button {
+  min-width: 160px;
+}
+
+/* Responsiveness */
+@media (max-width: 968px) {
+  .result-layout {
+    grid-template-columns: 1fr;
+  }
+  .strengths-weaknesses-row {
+    grid-template-columns: 1fr;
+  }
+}

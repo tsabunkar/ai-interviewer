@@ -1,0 +1,6 @@
+bin/
+.git/
+.gitignore
+*.md
+Makefile
+docker-compose.yml

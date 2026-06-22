@@ -1,0 +1,185 @@
+openapi: 3.0.3
+info:
+  title: AI Interviewer API
+  description: Backend services for the AI Interviewer application
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+  - url: https://your-api-gateway-url.amazonaws.com/prod
+    description: Production server
+paths:
+  /question:
+    get:
+      summary: Fetch daily coding question
+      description: Retrieves the coding question for the current date
+      operationId: fetchQuestion
+      responses:
+        '200':
+          description: Successfully retrieved the question
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+        '404':
+          description: No question available for today
+        '500':
+          description: Internal server error
+  /answer:
+    post:
+      summary: Submit coding answer
+      description: Submit a coding answer for evaluation
+      operationId: submitAnswer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitRequest'
+      responses:
+        '202':
+          description: Answer accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmitResponse'
+        '400':
+          description: Invalid request payload
+        '500':
+          description: Internal server error
+  /results:
+    get:
+      summary: Get evaluation results
+      description: Retrieve the results of answer evaluations
+      operationId: getResults
+      responses:
+        '200':
+          description: Successfully retrieved results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Results'
+        '500':
+          description: Internal server error
+  /leaderboard:
+    get:
+      summary: Get leaderboard rankings
+      description: Retrieve user rankings based on performance
+      operationId: getLeaderboard
+      responses:
+        '200':
+          description: Successfully retrieved leaderboard
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Leaderboard'
+        '500':
+          description: Internal server error
+  /stats:
+    get:
+      summary: Get user statistics
+      description: Retrieve statistics for a specific user
+      operationId: getUserStats
+      responses:
+        '200':
+          description: Successfully retrieved user stats
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStats'
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    Question:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          example: "2026-06-22"
+        title:
+          type: string
+          example: "Two Sum"
+        description:
+          type: string
+          example: "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target."
+        difficulty:
+          type: string
+          enum: [Easy, Medium, Hard]
+          example: "Easy"
+        tags:
+          type: array
+          items:
+            type: string
+          example: ["Array", "Hash Table"]
+    SubmitRequest:
+      type: object
+      required:
+        - userId
+        - questionDate
+        - answer
+      properties:
+        userId:
+          type: string
+          example: "user123"
+        questionDate:
+          type: string
+          format: date
+          example: "2026-06-22"
+        answer:
+          type: string
+          example: "function twoSum(nums, target) { ... }"
+    SubmitResponse:
+      type: object
+      properties:
+        submissionId:
+          type: string
+          example: "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8"
+        status:
+          type: string
+          example: "pending"
+    Results:
+      type: object
+      properties:
+        submissionId:
+          type: string
+        userId:
+          type: string
+        questionDate:
+          type: string
+          format: date
+        score:
+          type: integer
+        feedback:
+          type: string
+        evaluatedAt:
+          type: string
+          format: date-time
+    Leaderboard:
+      type: array
+      items:
+        type: object
+        properties:
+          userId:
+            type: string
+          rank:
+            type: integer
+          score:
+            type: number
+            format: float
+          submissions:
+            type: integer
+    UserStats:
+      type: object
+      properties:
+        userId:
+          type: string
+        totalSubmissions:
+          type: integer
+        averageScore:
+          type: number
+          format: float
+        lastSubmissionDate:
+          type: string
+          format: date

@@ -1,0 +1,105 @@
+{
+  "host": "localhost:8080",
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "Backend services for the AI Interviewer application",
+    "title": "AI Interviewer API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/answer": {
+      "post": {
+        "description": "Submit a coding answer for evaluation",
+        "summary": "Submit coding answer",
+        "operationId": "submitAnswer",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Answer accepted for processing"
+          },
+          "400": {
+            "description": "Invalid request payload"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/leaderboard": {
+      "get": {
+        "description": "Retrieve user rankings based on performance",
+        "summary": "Get leaderboard rankings",
+        "operationId": "getLeaderboard",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved leaderboard"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/question": {
+      "get": {
+        "description": "Retrieves the coding question for the current date",
+        "summary": "Fetch daily coding question",
+        "operationId": "fetchQuestion",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the question"
+          },
+          "404": {
+            "description": "No question available for today"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/results": {
+      "get": {
+        "description": "Retrieve the results of answer evaluations",
+        "summary": "Get evaluation results",
+        "operationId": "getResults",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved results"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/stats": {
+      "get": {
+        "description": "Retrieve statistics for a specific user",
+        "summary": "Get user statistics",
+        "operationId": "getUserStats",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user stats"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}
