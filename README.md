@@ -2,23 +2,15 @@
 
 A daily system-design interview challenge platform. A new architecture question every day — submit written answers and get AI-powered evaluations via Amazon Bedrock (Claude).
 
-## Architecture
+## Diagrams- Functional, Architecture
 
-```
-CloudFront / S3 (React SPA)
-      |
- API Gateway (REST)
-      |
- +---> fetch-question   (Lambda) ---> DynamoDB (Questions)
- +---> submit-answer    (Lambda) ---> SQS
- +---> get-results      (Lambda) ---> DynamoDB (Submissions)
- +---> leaderboard      (Lambda) ---> DynamoDB (Leaderboard)
- +---> user-stats       (Lambda) ---> DynamoDB (Submissions)
-      |
- EventBridge (daily cron) ---> question-generator (Lambda) ---> Bedrock + Fallback Pool
-      |
- SQS ---> evaluation-worker (Lambda) ---> Bedrock + DynamoDB
-```
+### High Level Architecture Diagram
+
+![High Level Architecture Diagram](hld.png)
+
+### Functional Requirement Diagram
+
+![Functional Requirement Diagram](fun-req-diagram.png)
 
 ## Project Structure
 
