@@ -38,6 +38,11 @@ output "sqs_queue_url" {
   value       = aws_sqs_queue.submissions.url
 }
 
+output "swagger_url" {
+  description = "API Gateway URL for Swagger UI documentation"
+  value       = "${aws_api_gateway_stage.prod.invoke_url}/"
+}
+
 output "sqs_dlq_url" {
   description = "SQS dead-letter queue URL for failed submissions"
   value       = aws_sqs_queue.submissions_dlq.url

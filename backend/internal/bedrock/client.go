@@ -50,7 +50,7 @@ func NewBedrockClient(ctx context.Context) (*BedrockClient, error) {
 
 	modelID := os.Getenv("BEDROCK_MODEL_ID")
 	if modelID == "" {
-		modelID = "anthropic.claude-3-sonnet-20240229-v1:0"
+		modelID = "us.anthropic.claude-sonnet-4-6"
 	}
 
 	return &BedrockClient{

@@ -12,6 +12,15 @@ server:
 tidy:
 	go mod tidy
 
+.PHONY: build-lambdas
+build-lambdas:
+	@for func in fetch-question submit-answer get-results leaderboard user-stats question-generator evaluation-worker swagger-ui; do \
+		echo "Building $$func..."; \
+		GOOS=linux GOARCH=amd64 go build -o bootstrap ./cmd/$$func/ && \
+		zip -j ../backend/bin/$$func.zip bootstrap && \
+		rm bootstrap; \
+	done
+
 .PHONY: docker-up
 docker-up:
 	docker compose up --build

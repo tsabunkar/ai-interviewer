@@ -56,7 +56,10 @@ resource "aws_iam_role_policy" "question_generator" {
         Sid    = "BedrockInvokeModel"
         Effect = "Allow"
         Action = ["bedrock:InvokeModel"]
-        Resource = "arn:aws:bedrock:${data.aws_region.current.name}::foundation-model/${var.bedrock_model_id}"
+        Resource = [
+          "arn:aws:bedrock:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:inference-profile/${var.bedrock_model_id}",
+          "arn:aws:bedrock:*::foundation-model/anthropic.claude-sonnet-4-6"
+        ]
       }
     ]
   })
@@ -192,7 +195,10 @@ resource "aws_iam_role_policy" "evaluation_worker" {
         Sid    = "BedrockInvokeModel"
         Effect = "Allow"
         Action = ["bedrock:InvokeModel"]
-        Resource = "arn:aws:bedrock:${data.aws_region.current.name}::foundation-model/${var.bedrock_model_id}"
+        Resource = [
+          "arn:aws:bedrock:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:inference-profile/${var.bedrock_model_id}",
+          "arn:aws:bedrock:*::foundation-model/anthropic.claude-sonnet-4-6"
+        ]
       }
     ]
   })
@@ -295,6 +301,23 @@ resource "aws_iam_role" "user_stats" {
 
 resource "aws_iam_role_policy_attachment" "user_stats_logs" {
   role       = aws_iam_role.user_stats.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+# =============================================================================
+# 8. swagger-ui Lambda Role
+# =============================================================================
+resource "aws_iam_role" "swagger_ui" {
+  name               = "${var.project_name}-swagger-ui-role"
+  assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
+
+  tags = {
+    Name = "${var.project_name}-swagger-ui-role"
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "swagger_ui_logs" {
+  role       = aws_iam_role.swagger_ui.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 

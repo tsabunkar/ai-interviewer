@@ -15,6 +15,151 @@ resource "aws_api_gateway_rest_api" "main" {
 }
 
 # =============================================================================
+# / (root) resource — Swagger UI
+# =============================================================================
+
+# GET /
+resource "aws_api_gateway_method" "get_root" {
+  rest_api_id   = aws_api_gateway_rest_api.main.id
+  resource_id   = aws_api_gateway_rest_api.main.root_resource_id
+  http_method   = "GET"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "get_root" {
+  rest_api_id             = aws_api_gateway_rest_api.main.id
+  resource_id             = aws_api_gateway_rest_api.main.root_resource_id
+  http_method             = aws_api_gateway_method.get_root.http_method
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.swagger_ui.invoke_arn
+}
+
+# OPTIONS / (CORS preflight)
+resource "aws_api_gateway_method" "options_root" {
+  rest_api_id   = aws_api_gateway_rest_api.main.id
+  resource_id   = aws_api_gateway_rest_api.main.root_resource_id
+  http_method   = "OPTIONS"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "options_root" {
+  rest_api_id = aws_api_gateway_rest_api.main.id
+  resource_id = aws_api_gateway_rest_api.main.root_resource_id
+  http_method = aws_api_gateway_method.options_root.http_method
+  type        = "MOCK"
+
+  request_templates = {
+    "application/json" = "{\"statusCode\": 200}"
+  }
+}
+
+resource "aws_api_gateway_method_response" "options_root" {
+  rest_api_id = aws_api_gateway_rest_api.main.id
+  resource_id = aws_api_gateway_rest_api.main.root_resource_id
+  http_method = aws_api_gateway_method.options_root.http_method
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
+  }
+
+  response_models = {
+    "application/json" = "Empty"
+  }
+}
+
+resource "aws_api_gateway_integration_response" "options_root" {
+  rest_api_id = aws_api_gateway_rest_api.main.id
+  resource_id = aws_api_gateway_rest_api.main.root_resource_id
+  http_method = aws_api_gateway_method.options_root.http_method
+  status_code = aws_api_gateway_method_response.options_root.status_code
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,Authorization,X-Amz-Date,X-Api-Key'"
+    "method.response.header.Access-Control-Allow-Methods" = "'GET,POST,OPTIONS'"
+    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+  }
+}
+
+# =============================================================================
+# /swagger.json resource
+# =============================================================================
+resource "aws_api_gateway_resource" "swagger_json" {
+  rest_api_id = aws_api_gateway_rest_api.main.id
+  parent_id   = aws_api_gateway_rest_api.main.root_resource_id
+  path_part   = "swagger.json"
+}
+
+# GET /swagger.json
+resource "aws_api_gateway_method" "get_swagger_json" {
+  rest_api_id   = aws_api_gateway_rest_api.main.id
+  resource_id   = aws_api_gateway_resource.swagger_json.id
+  http_method   = "GET"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "get_swagger_json" {
+  rest_api_id             = aws_api_gateway_rest_api.main.id
+  resource_id             = aws_api_gateway_resource.swagger_json.id
+  http_method             = aws_api_gateway_method.get_swagger_json.http_method
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.swagger_ui.invoke_arn
+}
+
+# OPTIONS /swagger.json (CORS preflight)
+resource "aws_api_gateway_method" "options_swagger_json" {
+  rest_api_id   = aws_api_gateway_rest_api.main.id
+  resource_id   = aws_api_gateway_resource.swagger_json.id
+  http_method   = "OPTIONS"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "options_swagger_json" {
+  rest_api_id = aws_api_gateway_rest_api.main.id
+  resource_id = aws_api_gateway_resource.swagger_json.id
+  http_method = aws_api_gateway_method.options_swagger_json.http_method
+  type        = "MOCK"
+
+  request_templates = {
+    "application/json" = "{\"statusCode\": 200}"
+  }
+}
+
+resource "aws_api_gateway_method_response" "options_swagger_json" {
+  rest_api_id = aws_api_gateway_rest_api.main.id
+  resource_id = aws_api_gateway_resource.swagger_json.id
+  http_method = aws_api_gateway_method.options_swagger_json.http_method
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
+  }
+
+  response_models = {
+    "application/json" = "Empty"
+  }
+}
+
+resource "aws_api_gateway_integration_response" "options_swagger_json" {
+  rest_api_id = aws_api_gateway_rest_api.main.id
+  resource_id = aws_api_gateway_resource.swagger_json.id
+  http_method = aws_api_gateway_method.options_swagger_json.http_method
+  status_code = aws_api_gateway_method_response.options_swagger_json.status_code
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,Authorization,X-Amz-Date,X-Api-Key'"
+    "method.response.header.Access-Control-Allow-Methods" = "'GET,POST,OPTIONS'"
+    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+  }
+}
+
+# =============================================================================
 # /question resource
 # =============================================================================
 resource "aws_api_gateway_resource" "question" {
@@ -418,11 +563,15 @@ resource "aws_api_gateway_deployment" "main" {
   # Force redeployment when any integration changes
   triggers = {
     redeployment = sha1(jsonencode([
+      aws_api_gateway_integration.get_root.id,
+      aws_api_gateway_integration.get_swagger_json.id,
       aws_api_gateway_integration.get_question.id,
       aws_api_gateway_integration.post_answer.id,
       aws_api_gateway_integration.get_results.id,
       aws_api_gateway_integration.get_leaderboard.id,
       aws_api_gateway_integration.get_user_stats.id,
+      aws_api_gateway_integration.options_root.id,
+      aws_api_gateway_integration.options_swagger_json.id,
       aws_api_gateway_integration.options_question.id,
       aws_api_gateway_integration.options_answer.id,
       aws_api_gateway_integration.options_results.id,
@@ -432,11 +581,15 @@ resource "aws_api_gateway_deployment" "main" {
   }
 
   depends_on = [
+    aws_api_gateway_integration.get_root,
+    aws_api_gateway_integration.get_swagger_json,
     aws_api_gateway_integration.get_question,
     aws_api_gateway_integration.post_answer,
     aws_api_gateway_integration.get_results,
     aws_api_gateway_integration.get_leaderboard,
     aws_api_gateway_integration.get_user_stats,
+    aws_api_gateway_integration.options_root,
+    aws_api_gateway_integration.options_swagger_json,
     aws_api_gateway_integration.options_question,
     aws_api_gateway_integration.options_answer,
     aws_api_gateway_integration.options_results,
@@ -498,6 +651,14 @@ resource "aws_lambda_permission" "apigw_user_stats" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.user_stats.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.main.execution_arn}/*/*"
+}
+
+resource "aws_lambda_permission" "apigw_swagger_ui" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.swagger_ui.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.main.execution_arn}/*/*"
 }

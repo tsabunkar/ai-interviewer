@@ -165,6 +165,31 @@ resource "aws_lambda_function" "leaderboard" {
 }
 
 # =============================================================================
+# Lambda Function: swagger-ui
+# Serves Swagger UI documentation at GET / and swagger.json at GET /swagger.json
+# =============================================================================
+resource "aws_lambda_function" "swagger_ui" {
+  function_name    = "${var.project_name}-swagger-ui"
+  role             = aws_iam_role.swagger_ui.arn
+  runtime          = "provided.al2023"
+  handler          = "bootstrap"
+  filename         = "../backend/bin/swagger-ui.zip"
+  source_code_hash = filebase64sha256("../backend/bin/swagger-ui.zip")
+  memory_size      = 128
+  timeout          = 10
+
+  environment {
+    variables = {
+      API_BASE_URL = "https://${aws_api_gateway_rest_api.main.id}.execute-api.${data.aws_region.current.name}.amazonaws.com/${var.environment}"
+    }
+  }
+
+  tags = {
+    Name = "${var.project_name}-swagger-ui"
+  }
+}
+
+# =============================================================================
 # Lambda Function: user-stats
 # API Gateway integration — returns historical statistics for a given user
 # =============================================================================

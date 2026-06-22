@@ -19,7 +19,7 @@ variable "project_name" {
 variable "bedrock_model_id" {
   description = "Amazon Bedrock foundation model ID for AI operations"
   type        = string
-  default     = "anthropic.claude-3-sonnet-20240229-v1:0"
+  default     = "us.anthropic.claude-sonnet-4-6"
 }
 
 variable "frontend_domain" {

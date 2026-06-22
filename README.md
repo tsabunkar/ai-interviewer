@@ -56,13 +56,13 @@ npm run dev
 
 ## API Endpoints
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/question?date=YYYY-MM-DD` | Get question (defaults to today) |
-| POST | `/answer` | Submit answer |
-| GET | `/results/{submissionId}` | Get evaluation |
-| GET | `/leaderboard?date=YYYY-MM-DD` | Leaderboard |
-| GET | `/stats/{userId}` | User stats |
+| Method | Path                           | Description                      |
+| ------ | ------------------------------ | -------------------------------- |
+| GET    | `/question?date=YYYY-MM-DD`    | Get question (defaults to today) |
+| POST   | `/answer`                      | Submit answer                    |
+| GET    | `/results/{submissionId}`      | Get evaluation                   |
+| GET    | `/leaderboard?date=YYYY-MM-DD` | Leaderboard                      |
+| GET    | `/stats/{userId}`              | User stats                       |
 
 ## Production Deployment
 
@@ -77,7 +77,7 @@ Build and deploy the frontend:
 ```bash
 cd frontend
 npm run build
-aws s3 sync dist/ s3://<bucket-name>/
+aws s3 sync dist/ s3://ai-interviewer-frontend-cef0ac55
 ```
 
 ## Tech Stack
