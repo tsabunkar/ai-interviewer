@@ -15,8 +15,8 @@ func main() {
 			Swagger: "2.0",
 			Info: &spec.Info{
 				InfoProps: spec.InfoProps{
-					Title:       "AI Interviewer API",
-					Description: "Backend services for the AI Interviewer application",
+					Title:       "Arch2Lead Interviewer API",
+					Description: "Backend services for the Arch2Lead Interviewer application",
 					Version:     "1.0.0",
 				},
 			},

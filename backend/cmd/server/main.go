@@ -616,7 +616,7 @@ const swaggerUIPage = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AI Interviewer API - Swagger UI</title>
+  <title>Arch2Lead Interviewer API - Swagger UI</title>
   <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css">
 </head>
 <body style="margin:0">

@@ -1,6 +1,6 @@
 # API Documentation
 
-This directory contains the OpenAPI (Swagger) documentation for the AI Interviewer backend services.
+This directory contains the OpenAPI (Swagger) documentation for the Arch2Lead Interviewer backend services.
 
 ## Local Development Server
 
@@ -58,15 +58,17 @@ Note: The local server provides mock responses for testing purposes. For product
 To generate or update the Swagger JSON documentation:
 
 1. Make sure you have the required dependencies:
+
    ```bash
    make tidy
    ```
 
 2. Run the generation script using either method:
+
    ```bash
    # Using make (recommended)
    make docs
-   
+
    # Or directly running the script
    go run scripts/generate-swagger.go
    ```

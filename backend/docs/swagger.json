@@ -1,12 +1,10 @@
 {
   "host": "localhost:8080",
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
   "swagger": "2.0",
   "info": {
-    "description": "Backend services for the AI Interviewer application",
-    "title": "AI Interviewer API",
+    "description": "Backend services for the Arch2Lead Interviewer Interviewer application",
+    "title": "Arch2Lead Interviewer API",
     "version": "1.0.0"
   },
   "paths": {

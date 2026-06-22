@@ -1,4 +1,4 @@
-# Makefile for AI Interviewer backend
+# Makefile for Arch2Lead Interviewer backend
 
 .PHONY: docs
 docs:

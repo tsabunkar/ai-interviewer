@@ -82,7 +82,7 @@ const swaggerUIPage = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AI Interviewer API - Swagger UI</title>
+  <title>Arch2Lead Interviewer API</title>
   <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css">
 </head>
 <body style="margin:0">
@@ -98,8 +98,8 @@ const swaggerUIPage = `<!DOCTYPE html>
 const swaggerSpecTemplate = `{
   "swagger": "2.0",
   "info": {
-    "description": "Backend services for the AI Interviewer application",
-    "title": "AI Interviewer API",
+    "description": "Backend services for the Arch2Lead Interviewer application",
+    "title": "Arch2Lead Interviewer API",
     "version": "1.0.0"
   },
   "host": "__HOST__",
