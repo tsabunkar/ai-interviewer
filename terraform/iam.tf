@@ -193,6 +193,7 @@ resource "aws_iam_role_policy" "evaluation_worker" {
         Effect = "Allow"
         Action = [
           "dynamodb:GetItem",
+          "dynamodb:PutItem",
           "dynamodb:UpdateItem"
         ]
         Resource = aws_dynamodb_table.leaderboard.arn
